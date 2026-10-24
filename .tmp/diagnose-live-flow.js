@@ -1,0 +1,10 @@
+const fs=require('fs');
+const vm=require('vm');
+const path=require('path');
+const root=path.resolve(__dirname,'..');
+const code=fs.readFileSync(path.join(root,'www','live-playlists.js'),'utf8');
+const playlist=['#EXTM3U','#EXTINF:-1 tvg-name="One" group-title="News",One','https://x.invalid/live/one.m3u8'].join('\n');
+const elements={livePlaylistSelect:{innerHTML:'',value:'0',onchange:null},livePlaylistReload:{onclick:null},livePlaylistControls:{classList:{add(){}}},livePlaylistStatus:{textContent:''}};
+const context={window:{},document:{addEventListener(event,fn){if(event==='DOMContentLoaded')fn()}},localStorage:{getItem(){return null},setItem(){}},fetch:async()=>new Response(playlist,{status:200}),TextDecoder,Response,Bib:{classify:()=> 'live'},$:id=>elements[id.slice(1)]||null,Lib:{live:[],livePlaylistId:'',_todos:null},state:{category:''},cat:{live:''},scr:'live',montarBiblioteca(){},atualizarHome(){},renderRails(){},renderCategories(){},renderCatalog(){},renderSide(){},renderList(){},console};
+vm.createContext(context);vm.runInContext(code,context);
+(async()=>{await context.carregarListaAoVivoSelecionada();if(context.Lib.live.length!==1)throw Error('successful load not applied');context.fetch=async()=>{throw Error('network failure')};context.livePlaylistCache={id:'',canais:[]};await context.carregarListaAoVivoSelecionada(true);if(elements.livePlaylistStatus.textContent.indexOf('network failure')<0)throw Error('error state not shown: '+elements.livePlaylistStatus.textContent);console.log('PASS: successful flow loads and network failure announces status without uncaught rejection.')})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.exe
+*.msi
+
+# Gradle
+.gradle/
+android/.gradle/
+android/app/build/
+android-tv/.gradle/
+android-tv/app/build/
+
+# Capacitor
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/app/src/main/res/xml/config.xml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temp files
+.tmp/
+*.tmp
+
+# Large media/playlist files
+*.m3u8
+*.bin.gz
+*.bin.gzbin

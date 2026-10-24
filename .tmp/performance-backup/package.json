@@ -1,0 +1,47 @@
+{
+  "name": "meu-iptv",
+  "version": "1.0.0",
+  "description": "Game Zone IPTV",
+  "author": "Game Zone IPTV",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win portable",
+    "android:add": "cap add android && node scripts/patch-android.js",
+    "android:sync": "cap sync android",
+    "android:apk": "node scripts/run-gradle.js android assembleDebug",
+    "android:tv:copy": "node scripts/cap-tv.js copy",
+    "android:tv:sync": "node scripts/cap-tv.js sync",
+    "android:tv:apk": "node scripts/run-gradle.js android-tv assembleDebug",
+    "android:tv:install": "node scripts/run-gradle.js android-tv installDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "fflate": "^0.8.3"
+  },
+  "devDependencies": {
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.gamezone.iptv",
+    "productName": "Game Zone IPTV",
+    "files": [
+      "electron/**",
+      "www/**",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "www/assets/icons/icon.ico"
+    },
+    "portable": {
+      "artifactName": "GameZoneIPTV-${version}.exe"
+    }
+  }
+}

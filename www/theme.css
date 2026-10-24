@@ -1,0 +1,869 @@
+/* ============================================================
+   Game Zone IPTV — tema visual
+   ============================================================
+   Paleta: preto/azul-marinho profundo + roxo neon. Um só lugar decide
+   todas as cores (tokens), então trocar o tom da marca é mexer aqui.
+   ============================================================ */
+:root{
+  font-size:16px;
+
+  /* superfícies */
+  --bg:#05030c;          /* fundo mais fundo */
+  --bg2:#0a0618;
+  --surface:#120a24;
+  --surface2:#1a1033;
+  --surface3:#241546;
+  --line:#2a1b4d;
+  --line2:#4c2b8f;
+
+  /* texto */
+  --fg:#f7f3ff;
+  --fg2:#d6c9f0;
+  --mut:#9c8cc4;
+
+  /* marca */
+  --acc:#a855f7;
+  --acc2:#d946ef;
+  --acc-soft:#a855f733;
+  --acc-line:#a855f766;
+  --grad:linear-gradient(115deg,#7c3aed,#a855f7 52%,#e879f9);
+  --grad-soft:linear-gradient(115deg,#7c3aed26,#a855f714);
+
+  --danger:#f43f5e;
+  --ok:#22c55e;
+  --warn:#f59e0b;
+
+  --radius:16px;
+  --radius-lg:22px;
+  --shadow:0 10px 40px #000a;
+  --shadow-lg:0 24px 70px #000c;
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  --nav-w:236px;         /* largura da barra lateral */
+  --bnav-h:64px;         /* altura da barra inferior no celular */
+  --pad:clamp(14px,2.6vw,38px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+html{background:var(--bg)}
+body{
+  background:transparent;
+  color:var(--fg);
+  font-family:"Inter var","Segoe UI Variable Display","Segoe UI",Roboto,"Noto Sans",system-ui,-apple-system,sans-serif;
+  font-size:16px;
+  font-feature-settings:"cv02","cv03","cv04","cv11";
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+::selection{background:#a855f755;color:#fff}
+img{max-width:100%}
+
+/* ---------- Fundo artístico ----------
+   Fica preso na viewport, atrás de tudo. O véu escuro por cima garante
+   contraste: o conteúdo continua legível e a imagem só sugere o clima. */
+#bgart{position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:url("assets/fundo.jpg") center/cover no-repeat;
+  filter:saturate(.9) brightness(.9)}
+#bgart:after{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(70% 55% at 50% -5%,#2a0f4d66 0%,transparent 62%),
+    linear-gradient(180deg,#05030c70 0%,#05030cce 45%,#05030cf5 100%)}
+/* Aura roxa: dá a "iluminação elegante" sem brilho exagerado. */
+#glow{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(42% 32% at 12% 8%,#7c3aed24,transparent 70%),
+    radial-gradient(38% 30% at 92% 16%,#d946ef1a,transparent 72%)}
+
+.hide{display:none!important}
+/* Escala fluida: o mesmo layout serve de celular a TV 4K */
+@media(min-width:1900px){:root{font-size:19px}}
+@media(min-width:2500px){:root{font-size:23px}}
+@media(max-width:640px){:root{font-size:15px}}
+button,input,textarea,select{font:inherit;color:var(--fg)}
+button{
+  cursor:pointer;border:1.5px solid var(--line);background:var(--surface);
+  border-radius:12px;padding:10px 16px;transition:background .18s var(--ease),border-color .18s,transform .12s;
+}
+button:hover{border-color:var(--line2);background:var(--surface2)}
+button:active{transform:scale(.97)}
+:focus-visible{outline:none;border-color:var(--acc)!important;box-shadow:0 0 0 3px #a855f755,0 0 24px #8b3dff44}
+input,textarea,select{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;
+  width:100%;transition:border-color .18s,box-shadow .18s;
+}
+input::placeholder,textarea::placeholder{color:#7e6ba8}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px #a855f728}
+
+/* ============================================================
+   Navegação
+   ============================================================ */
+/* Barra lateral: aparece em telas largas (desktop e TV). No celular ela
+   cede lugar à barra inferior. */
+#rail{
+  position:fixed;left:0;top:0;bottom:0;width:var(--nav-w);z-index:40;
+  display:flex;flex-direction:column;gap:8px;padding:20px 12px 16px;
+  background:linear-gradient(180deg,#0b0620f2,#080414f7);
+  border-right:1px solid #ffffff0d;backdrop-filter:blur(14px);
+}
+.rail-logo{display:grid;place-items:center;padding:2px 8px 16px}
+.rail-logo img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 6px 22px #a855f799)}
+.rail-items,.rail-foot{display:flex;flex-direction:column;gap:4px}
+.rail-foot{margin-top:auto;padding-top:10px;border-top:1px solid #ffffff0d}
+.rv{
+  display:flex;align-items:center;gap:12px;width:100%;
+  background:none;border:1.5px solid transparent;border-radius:12px;
+  padding:11px 13px;font-size:14.5px;font-weight:650;color:#b7a6d8;text-align:left;
+  transition:background .18s var(--ease),color .18s,border-color .18s;
+}
+.rv svg{width:21px;height:21px;flex:0 0 auto;opacity:.85}
+.rv:hover{background:#ffffff0a;color:#fff;border-color:transparent}
+.rv.on{background:var(--grad-soft);border-color:#7c3aed66;color:#fff;font-weight:800}
+.rv.on svg{opacity:1;color:#d8b4fe}
+.rv.on:before{content:"";position:absolute;left:0;width:3px;height:22px;border-radius:0 3px 3px 0;background:var(--grad)}
+.rv{position:relative}
+.rv:focus-visible{background:#ffffff0f;border-color:var(--acc)!important}
+
+/* Barra inferior (celular) */
+#bnav{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;
+  height:calc(var(--bnav-h) + env(safe-area-inset-bottom));
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+  background:#0a0618f7;border-top:1px solid #ffffff12;backdrop-filter:blur(16px);
+  grid-template-columns:repeat(5,1fr);
+}
+#bnav button{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:none;border:0;border-radius:12px;padding:6px 2px;
+  color:#8d7cb4;font-size:10.5px;font-weight:700;letter-spacing:.2px;
+}
+#bnav svg{width:23px;height:23px;transition:transform .2s var(--ease)}
+#bnav button.on{color:#e9d5ff;background:#a855f714}
+#bnav button.on svg{transform:translateY(-1px);color:#c084fc;filter:drop-shadow(0 0 8px #a855f799)}
+#bnav button:focus-visible{background:#a855f722;border-color:transparent!important}
+
+/* Layout: o conteúdo começa depois da barra lateral */
+#home,#sec{margin-left:var(--nav-w)}
+@media(max-width:1100px){
+  #rail{display:none}
+  #bnav{display:grid}
+  #home,#sec{margin-left:0}
+  #home{padding-bottom:calc(var(--bnav-h) + 34px + env(safe-area-inset-bottom))}
+  #sec{padding-bottom:calc(var(--bnav-h) + 34px + env(safe-area-inset-bottom))}
+}
+
+
+/* ---------- Intro (logo animada na abertura) ---------- */
+#intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:#05020c;
+  transition:opacity .6s var(--ease),visibility .6s}
+html.intro-lock,html.intro-lock body{overflow:hidden}
+#intro.off{opacity:0;visibility:hidden;pointer-events:none}
+#intro .intro-glow{position:absolute;width:min(80vmin,700px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,#8b3dff66,#a855f714 55%,transparent 70%);
+  filter:blur(24px);animation:introPulso 2.4s var(--ease) infinite}
+#intro .intro-card{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;z-index:2}
+#intro .intro-logo{width:min(34vmin,200px);height:auto;opacity:0;
+  filter:drop-shadow(0 0 38px #a855f7aa);
+  animation:introLogo 1.6s .1s var(--ease) forwards}
+#intro .intro-brand{display:flex;align-items:baseline;gap:8px;opacity:0;animation:introFade 1.2s .35s var(--ease) forwards}
+#intro .intro-title{font-size:clamp(24px,5vmin,36px);font-weight:900;letter-spacing:-.8px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#intro .intro-sub{font-size:clamp(12px,2.6vmin,16px);font-weight:800;letter-spacing:4px;color:#cdb8ff}
+#intro .intro-tagline{font-size:clamp(13px,2.8vmin,15px);color:var(--mut);opacity:0;animation:introFade 1.2s .65s var(--ease) forwards}
+#intro .intro-bar{width:min(44vmin,280px);height:4px;border-radius:9px;margin-top:14px;
+  background:#ffffff1a;overflow:hidden;opacity:0;animation:introFade 1s .75s var(--ease) forwards}
+#intro .intro-bar i{display:block;height:100%;width:0;border-radius:9px;background:var(--grad);
+  animation:introFill 2s .75s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes introLogo{
+  0%{opacity:0;transform:scale(.78) translateY(10px)}
+  50%{opacity:1;transform:scale(1.04) translateY(0)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes introFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes introPulso{0%,100%{opacity:.55;transform:scale(.95)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes introFill{to{width:100%}}
+@media(prefers-reduced-motion:reduce){
+  #intro .intro-logo{animation:none;opacity:1}
+  #intro .intro-glow{animation:none}
+  #intro .intro-brand,#intro .intro-tagline,#intro .intro-bar{animation:none;opacity:1}
+  #intro .intro-bar i{animation:none;width:100%}
+}
+
+/* ---------- Marca ---------- */
+.logo{display:flex;align-items:center;gap:14px;font-weight:900;letter-spacing:-.5px;white-space:nowrap}
+.logo img{width:60px;height:60px;object-fit:contain;filter:drop-shadow(0 4px 18px #a855f788)}
+.logo .txt{display:flex;flex-direction:column;line-height:1.02}
+.logo .n1{font-size:24px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo .n2{font-size:12px;letter-spacing:4.5px;color:#cdb8ff;font-weight:800;text-transform:uppercase}
+
+/* ---------- Home ---------- */
+#home{padding:22px var(--pad) 56px;max-width:1720px;margin-right:auto}
+.top{display:flex;align-items:center;gap:18px;margin-bottom:24px;flex-wrap:wrap}
+.logo img{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 4px 18px #a855f788)}
+.searchwrap{position:relative;flex:1;min-width:200px;max-width:560px;margin:0 auto}
+#hq{padding-left:48px;padding-right:74px;border-radius:999px;background:var(--surface);border-color:#33205c99}
+#hq:focus{border-color:var(--acc-line)}
+.searchwrap:before{content:"";position:absolute;left:18px;top:50%;width:18px;height:18px;transform:translateY(-50%);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%23a99bd6' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='7.5' cy='7.5' r='5.8'/%3E%3Cpath d='M12 12l4.4 4.4'/%3E%3C/svg%3E") no-repeat center;pointer-events:none}
+.searchkbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font:700 10.5px/1 ui-monospace,Consolas,monospace;color:#9c8cc4;
+  border:1px solid #3d2a68;border-radius:6px;padding:5px 7px;background:#0d0720;letter-spacing:.4px}
+.clock{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto;font-variant-numeric:tabular-nums}
+.clock b{font-size:25px;font-weight:800;letter-spacing:-.6px}
+.clock span{font-size:12px;color:var(--mut)}
+.icon-btn{width:46px;height:46px;padding:0;display:grid;place-items:center;border-radius:14px;color:#c4b2e6}
+.icon-btn:hover{color:#fff}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;border-radius:var(--radius-lg);min-height:380px;display:flex;align-items:center;
+  border:1px solid #ffffff14;box-shadow:var(--shadow-lg);background:linear-gradient(120deg,#1a0e33,#0b0620)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04);
+  transition:opacity .7s var(--ease);opacity:.85}
+.hero-bg:after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(96deg,#06030f 2%,#06030fe6 34%,#06030f66 62%,#06030f22 82%),
+    linear-gradient(0deg,#06030fcc,transparent 46%)}
+.hc{position:relative;z-index:2;padding:clamp(24px,3.6vw,52px);max-width:min(640px,66%)}
+.hc .hi{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
+  text-transform:uppercase;color:#d8b4fe;margin-bottom:14px;
+  background:#a855f71f;border:1px solid #a855f744;border-radius:999px;padding:5px 13px}
+.hc h1{margin:0 0 12px;font-size:clamp(30px,3.7vw,52px);line-height:1.02;font-weight:900;letter-spacing:-1.6px;
+  background:linear-gradient(96deg,#fff 30%,#edd9ff 64%,#c084fc);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hc p{margin:0 0 24px;font-size:clamp(14px,1.25vw,17px);color:#c3b3e2;max-width:44ch;line-height:1.6}
+.hc .btns{display:flex;gap:11px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:9px;background:var(--grad);border:0;border-radius:999px;
+  padding:13px 28px;font-weight:800;font-size:15.5px;box-shadow:0 8px 30px #a855f74d;color:#fff}
+.btn-primary:hover{filter:brightness(1.12);box-shadow:0 10px 38px #a855f766}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:#ffffff0f;border:1.5px solid #ffffff2b;
+  border-radius:999px;padding:13px 24px;font-weight:700;font-size:15.5px;backdrop-filter:blur(8px);color:#fff}
+.btn-ghost:hover{background:#ffffff1c}
+.dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3}
+.dots i{width:24px;height:4px;border-radius:9px;background:#ffffff2e;transition:all .35s var(--ease)}
+.dots i.on{background:var(--acc);width:40px;box-shadow:0 0 14px #a855f7aa}
+
+/* Atalhos */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.tile{position:relative;overflow:hidden;min-height:168px;border-radius:var(--radius-lg);padding:20px;
+  display:flex;flex-direction:column;justify-content:flex-end;gap:3px;border:1px solid #ffffff14;
+  background:#100a22;cursor:pointer;transition:transform .22s var(--ease),box-shadow .22s,border-color .22s}
+.tile:hover,.tile:focus-visible{transform:translateY(-4px);border-color:#a855f766;
+  box-shadow:0 18px 48px #000c,0 0 0 1px #a855f744}
+.tile .bgimg{position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:opacity .22s,transform .7s var(--ease);opacity:.9}
+.tile:hover .bgimg{transform:scale(1.06)}
+.tile:after{content:"";position:absolute;inset:0;
+  background:linear-gradient(184deg,#05030c14 26%,#05030c66 58%,#05030ceb 97%)}
+.tile>*{position:relative;z-index:2}
+.tile .ico{width:44px;height:44px;display:grid;place-items:center;color:#e9d5ff;
+  margin-bottom:auto;align-self:flex-start;border-radius:13px;
+  background:#080414b3;border:1px solid #ffffff26;
+  box-shadow:0 6px 20px #0007;transition:transform .25s var(--ease),background .22s}
+.tile:hover .ico{transform:scale(1.07) rotate(-3deg);background:#080414d9}
+.tile b{font-size:19.5px;font-weight:800;letter-spacing:-.3px;text-shadow:0 2px 14px #000c}
+.tile small{color:#cbbbe9;font-size:12.5px;text-shadow:0 1px 8px #000a;font-weight:600}
+.tile .go{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;
+  background:#08041499;border:1px solid #ffffff26;display:grid;place-items:center;color:#d8c9f2;
+  transition:all .2s var(--ease)}
+.tile:hover .go{background:var(--acc);border-color:transparent;color:#fff;transform:translateX(2px)}
+
+/* Pesquisa rápida por gênero */
+.quickbar{display:flex;gap:8px;overflow-x:auto;padding:16px 0 2px;scrollbar-width:none}
+.quickbar::-webkit-scrollbar{display:none}
+.qchip{flex:0 0 auto;background:#ffffff0a;border:1.5px solid #ffffff14;border-radius:999px;
+  padding:8px 16px;font-size:13px;font-weight:700;color:#c3b3e2;white-space:nowrap;
+  transition:all .18s var(--ease)}
+.qchip:hover{background:#a855f71f;border-color:#a855f766;color:#fff}
+.qchip:focus-visible{border-color:var(--acc)!important}
+
+/* Seções horizontais (estilo Netflix) */
+.sh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:32px 2px 12px}
+.sh h2,.sh h3{margin:0;font-size:18.5px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:9px}
+.sh h3:before{content:"";width:4px;height:18px;border-radius:3px;background:var(--grad)}
+.link{background:none;border:0;color:#b794f6;font-weight:700;padding:6px 4px;font-size:13.5px}
+.link:hover{color:#e9d5ff;background:none}
+
+.rail{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;scroll-behavior:smooth;scrollbar-width:thin;
+  scroll-snap-type:x proximity}
+.rail::-webkit-scrollbar{height:6px}
+.rail::-webkit-scrollbar-thumb{background:#4c2b8f;border-radius:9px}
+.rail::-webkit-scrollbar-track{background:transparent}
+.rail .card{scroll-snap-align:start}
+
+/* Card pôster */
+.card{position:relative;flex:0 0 166px;border-radius:14px;overflow:hidden;background:var(--surface);
+  border:1px solid #2f1c57;cursor:pointer;
+  transition:transform .22s var(--ease),box-shadow .22s,border-color .22s}
+.card:hover,.card:focus-visible{transform:translateY(-6px) scale(1.03);
+  box-shadow:0 18px 44px #000c;border-color:#a855f788;z-index:2;outline:none}
+.card .poster{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;
+  background:linear-gradient(160deg,#221240,#100a22)}
+/* Entrada sem tvg-logo: inicial do título sobre um degradê da marca, em vez
+   de um retângulo quebrado do navegador. */
+.card .sem-capa-img{display:grid;place-items:center;background:linear-gradient(160deg,#2a1550,#120a24)}
+.card .sem-capa-img span{font-size:2.2em;font-weight:900;color:#a855f7aa;letter-spacing:-1px}
+.card.sem-capa .poster{visibility:hidden}
+.card .meta{padding:9px 10px 11px}
+.card .meta b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:13px;font-weight:700;line-height:1.3}
+.card .meta small{display:block;margin-top:3px;color:var(--mut);font-size:11px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .badge{position:absolute;top:8px;left:8px;background:#05030ccc;backdrop-filter:blur(6px);
+  border-radius:7px;padding:3px 8px;font-size:10.5px;font-weight:800;color:#e9d5ff;
+  border:1px solid #ffffff1f;letter-spacing:.2px}
+.card .play{position:absolute;inset:0;display:grid;place-items:center;background:#05030c99;
+  opacity:0;transition:opacity .22s}
+.card:hover .play,.card:focus-visible .play{opacity:1}
+.card .play span{width:50px;height:50px;border-radius:50%;background:var(--grad);
+  display:grid;place-items:center;font-size:18px;box-shadow:0 8px 26px #a855f788;color:#fff}
+.card .prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:#ffffff26}
+.card .prog i{display:block;height:100%;background:var(--acc2);border-radius:0 2px 2px 0}
+.card.card-wide{flex:0 0 258px}
+.card.card-wide .poster{aspect-ratio:16/9}
+
+/* Continuar assistindo */
+#cont .card{flex:0 0 248px}
+#cont .poster{aspect-ratio:16/9}
+
+/* Estados: carregando / vazio / erro (usados em todas as listas) */
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:44px 20px;color:var(--mut);text-align:center;font-size:13.5px}
+.state svg{width:38px;height:38px;opacity:.5}
+.state b{color:var(--fg2);font-size:15px;font-weight:700}
+.state small{font-size:12.5px;max-width:44ch;line-height:1.6}
+.spinner{width:26px;height:26px;border-radius:50%;border:2.5px solid #a855f729;border-top-color:var(--acc);
+  animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Esqueleto dos cards: a lista já tem a forma final enquanto carrega */
+.skel{border-radius:14px;background:#120a24;border:1px solid #2a1b4d;overflow:hidden}
+.skel .simg{aspect-ratio:2/3;background:linear-gradient(100deg,#150d29 20%,#1f1338 40%,#150d29 60%);
+  background-size:220% 100%;animation:shimmer 1.4s linear infinite}
+.skel .sline{height:9px;margin:9px 10px;border-radius:5px;
+  background:linear-gradient(100deg,#1c1133 20%,#291a49 40%,#1c1133 60%);
+  background-size:220% 100%;animation:shimmer 1.4s linear infinite}
+.skel .sline.curta{width:58%}
+@keyframes shimmer{to{background-position:-220% 0}}
+
+
+/* ---------- Navegação de seções ---------- */
+/* A arte de fundo é bonita na home; atrás de uma grade densa ela rouba
+   contraste. Nas seções o véu escurece mais (sem virar uma caixa visível). */
+/* A seção é um bloco translúcido que cobre a viewport: a arte do fundo
+   continua aparecendo nas bordas/frestas, mas a grade fica legível. */
+#sec{background:#06030eee;backdrop-filter:blur(2px)}
+#sec:not(.hide){min-height:100vh}
+html.android #sec{backdrop-filter:none;background:#06030ef7}
+.nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;
+  position:sticky;top:0;z-index:15;padding:8px 0 12px;
+  background:linear-gradient(180deg,#05030cf2 60%,#05030c00)}
+.nav .back{width:42px;height:42px;padding:0;border-radius:12px;display:grid;place-items:center;color:#c4b2e6;flex:0 0 auto}
+.nav .back:hover{color:#fff}
+.pills{display:flex;gap:7px;overflow-x:auto;padding:2px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{white-space:nowrap;border-radius:999px;padding:8px 17px;font-weight:700;font-size:13.5px;
+  border:1.5px solid var(--line);background:var(--surface);color:#c3b3e2;
+  transition:all .18s var(--ease)}
+.pill.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 6px 20px #a855f74d}
+.pill:hover:not(.on){color:#fff;border-color:var(--line2)}
+.btn-multi{font-size:13px;padding:9px 16px}
+
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.toolbar input[type=search]{flex:1;min-width:170px;max-width:400px;border-radius:999px}
+.toolbar select{width:auto;min-width:124px;border-radius:999px;padding:10px 14px;background:#100a22}
+.toolbar .btn-icon{width:42px;height:42px;padding:0;border-radius:999px;display:grid;place-items:center;font-size:16px;flex:0 0 auto}
+
+/* Layout com sidebar. O player só ocupa espaço quando há algo tocando — sem
+   transmissão, o catálogo usa a largura toda (e nada fica "rodando" na tela). */
+.cols{display:grid;grid-template-columns:218px minmax(0,1fr);gap:20px;align-items:start}
+.cols.tocando{grid-template-columns:218px minmax(0,1fr) 380px}
+/* Sem a lateral (busca, recentes): a lista ocupa a largura toda. */
+.cols.sem-side{grid-template-columns:minmax(0,1fr)}
+.cols.tocando.sem-side{grid-template-columns:minmax(0,1fr) 380px}
+@media(max-width:1460px){.cols.tocando.sem-side{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:1240px){.cols.tocando.sem-side{grid-template-columns:minmax(0,1fr) 330px}}
+@media(max-width:1460px){.cols.tocando{grid-template-columns:196px minmax(0,1fr) 340px}}
+@media(max-width:1240px){.cols.tocando{grid-template-columns:minmax(0,1fr) 330px}.cols #side{display:none}}
+#pvwrap{display:none}
+.cols.tocando #pvwrap{display:block}
+
+@media(max-width:960px){
+  .cols,.cols.tocando{grid-template-columns:minmax(0,1fr)}
+  .cols.tocando #pvwrap{position:sticky;top:0;z-index:20;background:var(--bg);padding-bottom:10px}
+  .cols.tocando #pvwrap:before{content:"";position:absolute;inset:0 -8px;background:var(--bg);z-index:-1}
+}
+
+#side{display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 140px);overflow:auto;padding:2px;
+  scrollbar-width:thin}
+#side::-webkit-scrollbar{width:6px}
+#side::-webkit-scrollbar-thumb{background:#33205c;border-radius:9px}
+#side::-webkit-scrollbar-track{background:transparent}
+.sc{display:flex;justify-content:space-between;align-items:center;gap:8px;background:transparent;
+  border:1.5px solid transparent;border-radius:11px;padding:9px 12px;font-weight:600;font-size:13px;
+  color:#bba9dc;cursor:pointer;transition:all .16s var(--ease);position:relative}
+.sc:hover{background:#ffffff0a;color:#fff}
+.sc:focus-visible{background:#ffffff0f;border-color:var(--acc)!important}
+.sc.on{background:var(--grad-soft);border-color:#7c3aed66;color:#fff;font-weight:800}
+.sc em{font-style:normal;color:var(--mut);font-size:11.5px;font-variant-numeric:tabular-nums}
+.sc.on em{color:#d8b4fe}
+.sc.on:before{content:"";position:absolute;left:-1px;top:50%;transform:translateY(-50%);
+  width:3px;height:17px;border-radius:0 3px 3px 0;background:var(--grad)}
+
+/* Barra de categorias (celular): a lateral fica escondida porque roubava
+   metade da tela; as categorias viram uma faixa rolável no topo. */
+.catbar{display:none;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.catbar::-webkit-scrollbar{display:none}
+.catbar .sc{flex:0 0 auto;white-space:nowrap;border:1.5px solid var(--line);background:var(--surface);padding:8px 14px;font-size:12.5px}
+.catbar .sc em{display:none}
+.catbar .sc.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 4px 16px #a855f74d}
+.catbar .sc.on:before{display:none}
+
+/* Quantos resultados o filtro encontrou */
+.list-info{color:var(--mut);font-size:12px;margin:-4px 0 10px;min-height:15px;letter-spacing:.2px}
+
+/* Grade de cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px}
+.grid .card{flex:none}
+
+#list{max-height:calc(100vh - 150px);overflow:auto;padding-right:6px;scrollbar-width:thin}
+#list::-webkit-scrollbar{width:8px}
+#list::-webkit-scrollbar-thumb{background:#33205c;border-radius:9px}
+#list::-webkit-scrollbar-track{background:transparent}
+#list .more{margin-top:18px;width:100%;padding:13px;border-radius:14px;font-weight:700;font-size:13.5px;
+  background:#ffffff08;border-color:#ffffff14;color:#c3b3e2}
+#list .more:hover{background:#a855f71a;border-color:#a855f74d;color:#fff}
+
+#pvwrap{position:sticky;top:14px}
+#pvbox{position:relative;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;border:1px solid #4c2b8f66;box-shadow:0 12px 40px #000a;transition:border-radius .2s}
+#pvbox video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+#ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--mut);text-align:center;padding:20px;font-size:14px;white-space:pre-line}
+
+/* Barra de ações do player: sempre visível enquanto há transmissão, para a
+   tela cheia ficar a um clique — antes ela só aparecia no modo cheio. */
+#pvtop{position:absolute;top:10px;right:10px;z-index:7;display:none;gap:8px}
+.cols.tocando #pvtop{display:flex}
+.pvtop-btn{height:40px;min-width:40px;padding:0 10px;border-radius:11px;display:grid;place-items:center;
+  font-size:17px;background:#070410cc;border:1px solid #ffffff26;backdrop-filter:blur(10px);
+  opacity:.8;transition:opacity .2s,background .2s,transform .15s}
+/* O rótulo deixa claro que existe tela cheia — só o ícone passa batido */
+.pvtop-full{width:auto;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;
+  background:var(--grad);border:0;color:#fff;box-shadow:0 6px 20px #a855f766;opacity:1}
+.pvtop-full span{white-space:nowrap}
+/* Fechar o player: fica sempre à vista, inclusive em tela cheia — sair do
+   canal/filme não pode depender de adivinhar o gesto. */
+.pvtop-close{width:auto;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;
+  background:#e11d48d9;border:1px solid #ffffff26;color:#fff;opacity:1}
+.pvtop-close span{white-space:nowrap}
+
+/* Player nativo no Android: a view do ExoPlayer é desenhada por cima da
+   WebView, exatamente sobre a área do #pvbox. O <video> e os controles em
+   HTML ficam escondidos para não aparecerem atrás/duplicados — quem desenha
+   os controles passa a ser o player nativo (que também cuida da barra). */
+html.modo-nativo #v{visibility:hidden}
+html.modo-nativo #controls,html.modo-nativo #pvtop{display:none!important}
+html.modo-nativo #ph{pointer-events:none}
+/* Enquanto o nativo prepara o stream, o fundo do box é preto; o "carregando"
+   do ExoPlayer aparece na própria view. */
+html.modo-nativo #pvbox{background:#000}
+#pvbox:hover .pvtop-btn,.pvtop-btn:focus-visible{opacity:1}
+.pvtop-btn:hover{background:#2a1550ee;border-color:#a855f7aa}
+.pvtop-full:hover{filter:brightness(1.1);background:var(--grad)}
+#pvbox.full #pvtop{top:16px;right:16px;gap:10px}
+#pvbox.full .pvtop-btn{height:46px;min-width:46px;opacity:.9}
+#pvbox.full .pvtop-full{display:none}
+#pvbox:not(.full) #xf{display:none}
+#pvbox.full{position:fixed;inset:0;z-index:60;border-radius:0;border:0;aspect-ratio:auto;box-shadow:none;background:#000}
+body.player-full{overflow:hidden}
+#pvt{margin-top:12px;font-weight:800;font-size:16px}
+#pvh{color:var(--mut);font-size:13px;margin-top:3px}
+
+/* ---------- Controles do player ---------- */
+#controls{position:absolute;bottom:0;left:0;right:0;padding:16px 14px 12px;z-index:5;
+  background:linear-gradient(to top,#070410f2,#07041066 60%,transparent);
+  opacity:0;pointer-events:none;transition:opacity .25s var(--ease)}
+#pvbox:hover #controls,#controls.show{opacity:1;pointer-events:auto}
+.ctrl-progress{margin-bottom:10px}
+.ctrl-progress-bar{position:relative;height:5px;background:#ffffff2b;border-radius:9px;cursor:pointer;transition:height .15s}
+.ctrl-progress-bar:hover{height:8px}
+.ctrl-progress-buf{position:absolute;inset:0;background:#ffffff3a;border-radius:9px;width:0}
+.ctrl-progress-fill{position:absolute;inset:0;background:var(--grad);border-radius:9px;width:0}
+.ctrl-progress-thumb{position:absolute;top:50%;width:14px;height:14px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);left:0;box-shadow:0 2px 10px #000a;opacity:0;transition:opacity .18s;pointer-events:none}
+.ctrl-progress-bar:hover .ctrl-progress-thumb{opacity:1}
+.ctrl-tip{position:absolute;bottom:24px;left:0;transform:translateX(-50%);display:none;flex-direction:column;align-items:center;gap:3px;background:#070410e6;border:1px solid #ffffff26;border-radius:10px;padding:5px;pointer-events:none;z-index:3;backdrop-filter:blur(8px)}
+.ctrl-tip canvas{width:160px;height:90px;border-radius:6px;background:#111;display:block}
+.ctrl-tip span{font-size:12px;color:#fff;font-variant-numeric:tabular-nums}
+.ctrl-time{display:flex;align-items:center;justify-content:flex-end;gap:10px;font-size:12.5px;margin-top:6px;color:#e5dcf7;font-variant-numeric:tabular-nums}
+.ctrl-live{display:none;color:#fb7185;font-weight:800;letter-spacing:.6px;margin-right:auto;font-size:11.5px}
+.ctrl-live.on{display:inline-flex;align-items:center;gap:6px}
+/* Transmissão ao vivo não tem duração: mostrar "AO VIVO  0:00 / 0:00" era
+   ruído (e no player estreito a linha quebrava e vazava). */
+#pvbox.isLive .ctrl-time{justify-content:flex-start}
+.ctrl-sep{color:#7e6ba8}
+.ctrl-live.on:before{content:"";width:7px;height:7px;border-radius:50%;background:#fb7185;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+#pvbox.isLive .ctrl-time #currentTime,#pvbox.isLive .ctrl-time #duration,
+#pvbox.isLive .ctrl-time .ctrl-sep{display:none}
+.ctrl-buttons{display:flex;align-items:center;gap:6px}
+.ctrl-btn{background:none;border:0;color:#fff;font-size:19px;padding:7px 9px;border-radius:9px;line-height:1;transition:background .15s}
+.ctrl-btn:hover{background:#ffffff1f}
+.ctrl-volume{width:78px;accent-color:var(--acc);height:4px}
+.ctrl-spacer{flex:1}
+.ctrl-select{background:#150c26cc;color:#fff;border:1px solid #ffffff26;padding:6px 9px;border-radius:9px;font-size:12.5px;width:auto;backdrop-filter:blur(8px)}
+/* Botão rotulado: em telas pequenas o ícone sozinho passa despercebido */
+.ctrl-full{display:inline-flex;align-items:center;gap:6px;background:var(--grad);border:0;color:#fff;
+  font-weight:800;font-size:12.5px;padding:8px 14px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 6px 20px #a855f74d;transition:filter .18s,transform .12s}
+.ctrl-full:hover{filter:brightness(1.12)}
+#pvbox.full .ctrl-full{display:none}
+/* Fora da tela cheia o player fica numa coluna estreita (330–380px). Os
+   controles sobrepostos não cabiam ali (colidiam com os botões do topo e
+   saíam pela borda), então eles viram uma faixa logo abaixo do vídeo. */
+#pvbox:not(.full){aspect-ratio:auto;overflow:visible}
+#pvbox:not(.full) video{aspect-ratio:16/9;height:auto;border-radius:15px}
+#pvbox:not(.full) #controls{position:static;opacity:1;pointer-events:auto;
+  background:none;padding:10px 2px 2px}
+#pvbox:not(.full) #pvtop{top:auto;bottom:calc(100% - 44px);right:6px;gap:6px}
+#pvbox:not(.full) .pvtop-close span,#pvbox:not(.full) .pvtop-full span{display:none}
+#pvbox:not(.full) .pvtop-btn{width:36px;height:32px;padding:0}
+#pvbox:not(.full) .ctrl-buttons{flex-wrap:wrap;gap:4px}
+#pvbox:not(.full) .ctrl-spacer{flex:1 0 100%;height:0}
+#pvbox:not(.full) .ctrl-volume{width:64px}
+/* Nesta coluna o botão "Tela cheia" do rodapé sai: o ⛶ do topo já faz o
+   mesmo e o rótulo empurrava a linha para fora do card. */
+#pvbox:not(.full) .ctrl-full{display:none}
+@media(max-width:640px){
+  .ctrl-full{padding:7px 11px;font-size:11.5px}
+  .ctrl-full span{display:none}
+}
+
+/* ---------- Badges de qualidade / EPG ---------- */
+.badge-q{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.4px;padding:1px 6px;border-radius:5px;vertical-align:middle;margin-left:5px}
+.q4k{background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff}
+.qfhd{background:#3b82f6;color:#fff}
+.qhd{background:#22c55e;color:#052e16}
+.qsd{background:#475569;color:#e2e8f0}
+.epg-now{color:#c4a3ff;font-weight:700}
+.epg-next{color:var(--mut)}
+.epg-bar{height:3px;background:#ffffff1f;border-radius:3px;margin-top:5px;overflow:hidden}
+.epg-bar i{display:block;height:100%;background:var(--grad)}
+
+/* ---------- Configurações ---------- */
+#cfg{position:fixed;inset:0;z-index:70;background:#070410e8;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:16px}
+#cfg .panel{background:var(--bg2);border:1px solid #4c2b8f66;border-radius:22px;width:min(920px,100%);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow)}
+#cfg .head{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+#cfg .head h3{margin:0;flex:1;font-size:19px;font-weight:800}
+#cfg .body{display:flex;gap:0;flex:1;min-height:0}
+#cfg .tabs{display:flex;flex-direction:column;gap:4px;padding:14px 10px;border-right:1px solid var(--line);min-width:190px;overflow:auto}
+.cfg-tab{display:flex;align-items:center;gap:10px;background:none;border:1.5px solid transparent;border-radius:11px;padding:11px 13px;font-size:14px;font-weight:600;color:#c8b8e6;text-align:left}
+.cfg-tab:hover{background:var(--surface);color:#fff}
+.cfg-tab.on{background:var(--grad-soft);border-color:#7c3aed77;color:#fff;font-weight:800}
+#cfg .content{flex:1;overflow:auto;padding:18px 22px;min-width:0}
+.cfg-content{display:none;flex-direction:column;gap:10px}
+.cfg-content.on{display:flex}
+.cfg-content label{color:var(--mut);font-size:12.5px;font-weight:600;margin-top:6px}
+.cfg-content textarea{min-height:88px;resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.switch{display:flex;align-items:center;gap:11px;color:var(--fg)!important;font-size:14px!important;font-weight:600;cursor:pointer;margin-top:2px}
+.switch input{width:20px;height:20px;accent-color:var(--acc);flex:0 0 auto;cursor:pointer}
+#cfg .foot{display:flex;gap:10px;padding:16px 22px;border-top:1px solid var(--line);flex-wrap:wrap}
+#cfg .foot .grow{flex:1}
+.rangewrap{display:flex;align-items:center;gap:12px}
+.rangewrap input[type=range]{flex:1;accent-color:var(--acc)}
+.rangewrap output{font-variant-numeric:tabular-nums;font-weight:700;min-width:44px;text-align:right;color:#d8b4fe}
+
+/* ---------- Modais ---------- */
+.modal{position:fixed;inset:0;z-index:80;background:#070410d9;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .panel{background:var(--bg2);border:1px solid #4c2b8f66;border-radius:22px;width:min(560px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow)}
+.modal .head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.modal .head h3{margin:0;flex:1;font-size:17px;font-weight:800}
+.modal .body{padding:18px 20px;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.modal label{color:var(--mut);font-size:12.5px;font-weight:600}
+
+/* Detalhe do filme / série (layout moderno) */
+#detail{position:fixed;inset:0;z-index:82;background:#070410f8;overflow-y:auto;overflow-x:hidden;display:none}
+#detail.on{display:block}
+#detail .backdrop{position:absolute;top:0;left:0;right:0;height:min(62vh,560px);background-size:cover;background-position:center 20%;opacity:.5;filter:blur(3px) saturate(1.15);transform:scale(1.02);transition:background-image .4s var(--ease)}
+#detail .backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#07041022 0%,#070410b3 50%,#070410 100%)}
+#detail .close{position:fixed;top:18px;right:18px;z-index:10;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:19px;background:#070410d9;backdrop-filter:blur(10px);border:1px solid #ffffff2b;transition:background .2s,transform .15s}
+#detail .close:hover{background:#1e1038;transform:scale(1.05)}
+#detail .inner{position:relative;max-width:1300px;margin:0 auto;padding:min(34vh,280px) clamp(16px,4vw,48px) 60px}
+/* Capa à esquerda; título, sinopse, player e ações alinhados na coluna da direita */
+#detail .dhead{display:grid;grid-template-columns:240px minmax(0,1fr);gap:0 32px;align-items:start}
+#detail .dhead.sem-poster{grid-template-columns:minmax(0,1fr)}
+#detail .dhead.sem-poster .dposter{display:none}
+#detail .dhead.sem-poster .dtext,
+#detail .dhead.sem-poster .syn,
+#detail .dhead.sem-poster .actions,
+#detail .dhead.sem-poster .dplayer-wrap{grid-column:1}
+#detail .dhead.sem-poster~*{margin-top:0}
+#detail .inner:has(.dhead.sem-poster){padding-top:clamp(72px,16vh,190px)}
+#detail .dposter{grid-row:1/5;align-self:start;width:100%;border-radius:18px;box-shadow:0 18px 50px #000c;border:1px solid #ffffff1f;background:var(--surface);aspect-ratio:2/3;object-fit:cover;transition:opacity .3s}
+#detail .dtext,#detail .syn,#detail .actions,#detail .dplayer-wrap{grid-column:2;min-width:0}
+#detail .dtext{align-self:end}
+#detail h1{margin:0 0 10px;font-size:clamp(26px,4vw,52px);line-height:1.06;font-weight:900;letter-spacing:-1.4px}
+#detail .dmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;color:#cbbde8;font-size:13.5px}
+#detail .dmeta .dot{width:4px;height:4px;border-radius:50%;background:#7e6ba8}
+#detail .dmeta .chip{background:#ffffff12;border:1px solid #ffffff1f;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700}
+#detail .dmeta .tmdb-rating{background:linear-gradient(135deg,#f59e0b,#d97706);color:#05020c;font-weight:900;border-radius:8px;padding:3px 9px;font-size:12.5px;letter-spacing:-.2px;box-shadow:0 2px 10px #f59e0b44}
+#detail .syn{max-width:76ch;color:#d8cdf0;font-size:15px;line-height:1.68;margin:0 0 20px}
+#detail .actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+
+/* Player embutido dentro da tela de detalhes */
+#detail .dplayer-wrap{margin:10px 0 24px;border-radius:18px;overflow:hidden;background:#000;border:1.5px solid #4c2b8f66;position:relative;aspect-ratio:16/9;max-width:960px;box-shadow:0 16px 50px #000e;display:none}
+#detail .dplayer-wrap.ativo{display:block}
+#detail .dplayer-wrap.fullscreen{position:fixed;inset:0;z-index:99;max-width:none;border-radius:0;border:none;margin:0;width:100vw;height:100vh}
+#detail .dplayer-wrap video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+#detail .dplayer-ctrls{position:absolute;bottom:0;left:0;right:0;padding:12px 18px;background:linear-gradient(to top,#05030cf0 40%,transparent);display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .25s var(--ease);z-index:4}
+#detail .dplayer-wrap:hover .dplayer-ctrls,#detail .dplayer-wrap.show-ctrls .dplayer-ctrls{opacity:1}
+#detail .dplayer-bar{position:absolute;top:0;left:0;right:0;height:6px;background:#ffffff26;cursor:pointer}
+#detail .dplayer-buf{position:absolute;top:0;left:0;height:100%;background:#ffffff44}
+#detail .dplayer-prog{position:absolute;top:0;left:0;height:100%;background:var(--grad)}
+#detail .dplayer-btn{background:none;border:none;color:#fff;font-size:18px;padding:6px;cursor:pointer;border-radius:8px;line-height:1;display:grid;place-items:center}
+#detail .dplayer-btn:hover{background:#ffffff1f}
+#detail .dplayer-time{font-size:13px;font-weight:700;color:#e2d9f3;font-variant-numeric:tabular-nums}
+#detail .dplayer-full{margin-left:auto}
+
+#detail .eps{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+#detail .ephead{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+#detail select{width:auto;min-width:140px}
+.ep{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .16s var(--ease)}
+.ep:hover,.ep:focus{background:var(--surface2);border-color:var(--acc);transform:translateX(4px);outline:none}
+.ep.ativa{background:var(--grad-soft);border-color:#7c3aed88}
+.ep .num{font-weight:800;color:var(--acc);min-width:54px;font-variant-numeric:tabular-nums;font-size:13px}
+.ep .nm{flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ep .go{color:var(--mut);font-size:15px}
+
+/* Multi-tela aprimorada */
+#multi{position:fixed;inset:0;z-index:75;background:#030108;display:grid;gap:6px;padding:6px}
+#multi.g2{grid-template-columns:1fr 1fr}
+#multi.g3{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+#multi.g3 .mp:first-child{grid-column:1/-1}
+#multi.g4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+#multi .mp{position:relative;background:#0a0514;border:2px solid #23163a;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s}
+#multi .mp.audio{border-color:#c084fc;box-shadow:0 0 0 2px #a855f766,0 0 26px #8b3dff44}
+#multi .mp.expandido{position:fixed;inset:6px;z-index:80;border-radius:14px;border-color:var(--acc)}
+#multi video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
+#multi .mp-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#0c0618;border:2px dashed #4c2b8f88;border-radius:12px;color:#c8b8e6;cursor:pointer;transition:background .2s,border-color .2s}
+#multi .mp-empty:hover{background:#150a2a;border-color:var(--acc);color:#fff}
+#multi .mp-empty span{font-size:32px;line-height:1}
+#multi .ml{position:absolute;top:10px;left:10px;background:#070410d0;border:1px solid #ffffff1a;border-radius:9px;padding:6px 12px;font-size:13px;font-weight:700;max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;backdrop-filter:blur(8px);z-index:2}
+#multi .mp-actions{position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:2}
+#multi .mp-btn{padding:6px 10px;font-size:13px;font-weight:700;border-radius:9px;background:#070410d0;border:1px solid #ffffff1a;backdrop-filter:blur(8px);cursor:pointer;color:#fff;transition:background .15s,border-color .15s}
+#multi .mp-btn:hover{background:#1f113a;border-color:var(--acc)}
+#multi .ma.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 0 12px #a855f788}
+#multiBar{position:fixed;bottom:0;left:0;right:0;z-index:76;display:flex;gap:10px;justify-content:center;align-items:center;padding:14px;background:linear-gradient(to top,#05020cf0 30%,transparent);flex-wrap:wrap}
+#multiBar button{border-radius:999px;padding:9px 18px;font-weight:700;background:#180d2edd;border:1px solid #5b21b666;backdrop-filter:blur(10px)}
+#multiBar button:hover{background:var(--surface2);border-color:var(--acc)}
+
+.picker-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);cursor:pointer;transition:all .15s var(--ease)}
+.picker-item:hover,.picker-item:focus{background:var(--surface2);border-color:var(--acc);transform:translateX(3px);outline:none}
+.picker-item img{width:36px;height:36px;border-radius:8px;object-fit:contain;background:#000}
+.picker-item .pname{flex:1;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.picker-item .pgrp{font-size:12px;color:var(--mut)}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);z-index:90;background:var(--surface2);border:1px solid var(--line2);border-radius:14px;padding:12px 20px;font-size:14px;font-weight:600;box-shadow:var(--shadow);opacity:0;transition:all .3s var(--ease);pointer-events:none;max-width:90vw;text-align:center}
+#toast.on{transform:translate(-50%,0);opacity:1}
+
+/* Depuração / erros */
+#err{color:#fca5a5;white-space:pre-line;margin:10px 2px;font-size:12.5px;line-height:1.6}
+
+/* ---------- Responsivo ---------- */
+/* Tablet / janela estreita: a barra lateral já saiu (regra do topo), então
+   aqui só ajustamos as colunas internas e os atalhos. */
+@media(max-width:1100px){
+  .cols{grid-template-columns:1fr}
+  .cols #pvwrap{order:-1;position:relative;top:0}
+  #side{display:none}
+  .catbar{display:flex}
+  #list{max-height:none}
+  .tiles{grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+  .tile{min-height:140px;padding:15px}
+  .tile .ico{width:38px;height:38px;border-radius:11px}
+  .tile b{font-size:16px}
+  .tile small{font-size:11px}
+  .hero{min-height:300px}
+  .hc{max-width:100%}
+  #detail .inner{padding-top:min(30vh,240px)}
+  #detail .dhead{grid-template-columns:130px 1fr;gap:18px;align-items:start}
+}
+@media(max-width:820px){
+  .tiles{grid-template-columns:1fr;gap:10px}
+  .tile{min-height:92px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;
+    align-items:center;column-gap:14px;row-gap:1px;padding:14px 16px}
+  .tile .bgimg{opacity:.42}
+  .tile:after{background:linear-gradient(90deg,#05030ceb 34%,#05030c66)}
+  .tile .ico{grid-row:1/3;margin:0;align-self:center}
+  .tile b{grid-column:2;grid-row:1;align-self:end}
+  .tile small{grid-column:2;grid-row:2;align-self:start}
+}
+@media(max-width:640px){
+  /* A barra inferior é fixa: o padding precisa reservar a altura dela,
+     senão a última linha de cards fica escondida atrás. */
+  #home{padding:14px 14px calc(var(--bnav-h) + 34px + env(safe-area-inset-bottom))}
+  /* Navegação da seção em uma linha só: as pills rolam na horizontal e o
+     botão Multi não desce para uma linha própria. */
+  .nav{flex-wrap:nowrap;gap:8px}
+  .nav .pills{flex:1;min-width:0;
+    -webkit-mask-image:linear-gradient(90deg,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,#000 86%,transparent)}
+  .btn-multi{padding:9px 12px;font-size:12px}
+  /* A busca ocupa a linha toda; os filtros dividem a linha de baixo. Sem
+     isso o conjunto passava da largura e a página rolava de lado. */
+  .toolbar{gap:7px}
+  .toolbar input[type=search]{flex:1 0 100%;max-width:none;min-width:0}
+  .toolbar select{flex:1 1 0;min-width:0}
+  .toolbar .btn-icon{flex:0 0 42px}
+  .logo img{width:42px;height:42px}
+  .logo .n1{font-size:18px}
+  .logo .n2{font-size:9.5px;letter-spacing:2.6px}
+  .clock{display:none}
+  .searchwrap{order:9;flex:1 0 100%;max-width:none;margin:2px 0 0}
+  .searchkbd{display:none}
+  #hq{padding-right:14px}
+  .hero{min-height:290px;border-radius:18px}
+  .hc{padding:20px 18px;max-width:100%}
+  .hc h1{font-size:27px;letter-spacing:-1px}
+  .hc p{font-size:13.5px;margin-bottom:16px}
+  .btn-primary,.btn-ghost{padding:11px 19px;font-size:14px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:11px}
+  .card{flex:0 0 122px}
+  .card .meta b{font-size:11.5px}
+  .card .meta small{font-size:10px}
+  #cont .card{flex:0 0 196px}
+  .card.card-wide{flex:0 0 196px}
+  .sh{margin:24px 2px 10px}
+  .sh h2,.sh h3{font-size:15.5px}
+  .sh h3:before{height:15px}
+  .link{font-size:12.5px}
+  #bnav button{font-size:10px}
+  #bnav svg{width:22px;height:22px}
+  .nav{margin-bottom:10px;padding:6px 0 8px}
+  .nav .back{width:38px;height:38px}
+  .pill{padding:7px 14px;font-size:12.5px}
+  #cfg .body{flex-direction:column}
+  #cfg .tabs{flex-direction:row;border-right:0;border-bottom:1px solid var(--line);min-width:0;overflow-x:auto;padding:10px;
+    scrollbar-width:none}
+  #cfg .tabs::-webkit-scrollbar{display:none}
+  #cfg .content{padding:14px 16px}
+  #cfg{padding:10px}
+  #cfg .panel{max-height:94vh;border-radius:18px}
+  .cfg-tab{white-space:nowrap;padding:9px 12px;font-size:13px}
+  /* No celular a capa fica ao lado do título (como na Netflix), não empilhada */
+  #detail .dhead{grid-template-columns:104px 1fr;gap:16px;align-items:start}
+  #detail .dposter{max-width:none}
+  #detail .inner{padding-top:min(26vh,200px)}
+  #detail .backdrop{height:34vh}
+  #detail h1{font-size:23px;letter-spacing:-.7px}
+  #detail .syn{font-size:14px;margin-bottom:16px}
+  #detail .syn,#detail .actions{grid-column:1/-1}
+  #detail .actions{gap:8px}
+  #detail .dhead{gap:0 16px}
+  #detail .dposter{grid-row:1;align-self:start}
+  #detail .dtext{align-self:start}
+  #detail .actions .btn-primary,#detail .actions .btn-ghost{padding:11px 16px;font-size:14px}
+  .ctrl-btn{font-size:17px;padding:6px 7px}
+  .ctrl-volume{width:54px}
+  .ctrl-select{font-size:11.5px;padding:5px 7px}
+  .state{padding:30px 16px}
+}
+
+/* TV / telas grandes: aumenta escala confortavelmente */
+@media(min-width:1800px){
+  body{font-size:18px}
+  #home,#sec{max-width:1900px}
+  .card{flex:0 0 200px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(184px,1fr))}
+  #detail .inner{max-width:1450px}
+}
+/* Telas de TV 720p: hero mais baixo para o catálogo caber acima da dobra */
+@media(min-width:1101px) and (max-height:800px){
+  .hero{min-height:266px}
+  #home{padding-top:14px}
+}
+
+/* Acessibilidade: respeita quem prefere menos movimento */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .spinner{animation:none}
+}
+
+/* ============================================================
+   Desempenho em celular / TV / TV box
+   ============================================================
+   O blur de fundo e as sombras grandes custam caro na GPU fraca desses
+   aparelhos: com 60 cards na tela o WebView passava a cair de frames.
+   Aqui os efeitos decorativos saem de cena e sobra só o essencial. */
+html.android *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html.android .hero,html.android .tile{background:#120a24}
+html.android #bgart{filter:none;opacity:.5}
+html.android #bgart:after{background:linear-gradient(180deg,#05030cc4,#05030cf7)}
+html.android #glow{display:none}
+html.android .card{box-shadow:none}
+html.android .card:hover{transform:none;box-shadow:none}
+html.android .tile:hover{transform:none}
+html.android .card .play{display:none}
+html.android .tile:hover .ico{transform:none}
+html.android .rail{scroll-behavior:auto}
+html.android #rail{backdrop-filter:none;background:#0a0618}
+
+/* Modo leve: ligado pelo usuário (ou automático em TV box) */
+html.modo-leve #intro{display:none}
+html.modo-leve .dots,html.modo-leve .tile .go{display:none}
+html.modo-leve *{animation:none!important;transition:none!important}
+html.modo-leve #home{max-width:none}
+html.modo-leve .hero{min-height:220px}
+html.modo-leve .card .poster{background:#150d29}
+html.modo-leve .skel .simg,html.modo-leve .skel .sline{animation:none;background:#1a1033}
+
+/* TV: letras e alvos maiores, foco bem visível (o controle remoto não tem
+   hover, então quem indica a posição é o anel de foco). */
+html.tv{font-size:19px}
+html.tv .card{flex:0 0 200px}
+html.tv .grid{grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:16px}
+html.tv .rail{gap:18px}
+html.tv :focus-visible,html.tv .card:focus,html.tv .tile:focus,
+html.tv .rv:focus,html.tv .sc:focus,html.tv .qchip:focus,
+html.tv .ep:focus,html.tv .btn-primary:focus,html.tv .btn-ghost:focus,
+html.tv input:focus,html.tv select:focus,html.tv [tabindex="0"]:focus,
+.focused{
+  outline:3px solid #c084fc!important;outline-offset:2px!important;
+  border-color:#c084fc!important;
+  box-shadow:0 0 0 4px #7c3aed66,0 0 34px #c084fcaa!important;
+}
+html.tv .card:focus,html.tv .card.focused{
+  transform:scale(1.06)!important;
+  z-index:12!important;
+  border-color:#c084fc!important;
+  box-shadow:0 0 0 4px #7c3aed88,0 12px 36px #a855f7aa!important;
+}
+html.tv .tile:focus,html.tv .tile.focused{transform:scale(1.03)!important;border-color:#c084fc!important}
+html.tv .sc:focus,html.tv .sc.focused{background:var(--grad-soft);border-color:#c084fc!important}
+html.tv .pill:focus,html.tv button:focus{border-color:#c084fc!important}
+html.tv #pvbox.full .pvtop-btn{height:54px;min-width:54px;font-size:21px}
+html.tv #rail .rv{padding:13px 14px;font-size:15px}
+html.tv #rail .rv svg{width:23px;height:23px}
+/* TV com controle remoto nunca usa a barra inferior de celular */
+html.tv #bnav{display:none!important}
+html.tv #home,html.tv #sec{margin-left:var(--nav-w)}
+@media(max-height:720px){
+  html.tv .hero{min-height:200px}
+  html.tv .tile{min-height:132px}
+}
+
+/* Campos de texto no celular: 16px evita o zoom automático do navegador */
+.live-playlist-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.live-playlist-controls[hidden],.live-playlist-controls.hidden{display:none!important}
+.live-playlist-controls select{min-width:150px;padding:8px 10px}
+.live-playlist-controls button{border:1px solid var(--line2);border-radius:10px;background:var(--surface2);color:var(--fg);padding:9px 12px;cursor:pointer}
+.live-playlist-controls button:hover,.live-playlist-controls button:focus-visible{border-color:var(--accent);outline:2px solid var(--accent)}
+.live-playlist-status{font-size:13px;color:var(--muted);padding:6px 0;min-height:1em}
+.live-playlist-status:empty{display:none}
+@media(max-width:640px){
+  input,select,textarea{font-size:16px}
+  .toolbar input[type=search]{min-width:0}
+  .toolbar select{min-width:0;flex:1}
+  .live-playlist-controls{width:100%;gap:7px}
+  .live-playlist-controls select{flex:1;min-width:0}
+  .live-playlist-controls button{min-height:44px}
+  /* Mesmo padding inferior da home: a barra fixa não pode cobrir a última linha */
+  #sec{padding:12px 12px calc(var(--bnav-h) + 30px + env(safe-area-inset-bottom))}
+}

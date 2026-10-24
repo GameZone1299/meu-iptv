@@ -1,0 +1,15 @@
+
+HEAP 58MB
+LIVE cat 4k: [{"chave":"canais 4k uhd","rotulo":"Canais · 4K/UHD","total":27}]
+SERIES cats: 43
+busca vingadores: 57 resultados
+busca dublado: 123 resultados
+(node:3276) UnhandledPromiseRejectionWarning: Error: Script failed to execute, this normally means an error was thrown. Check the renderer console for the error.
+    at node:electron/js2c/sandbox_bundle:2:127152
+    at IpcRendererInternal.<anonymous> (node:electron/js2c/sandbox_bundle:2:121397)
+    at IpcRendererInternal.emit (node:electron/js2c/sandbox_bundle:2:45997)
+    at Object.onMessage (node:electron/js2c/sandbox_bundle:2:119374)
+(Use `electron --trace-warnings ...` to show where the warning was created)
+(node:3276) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+[3276:1022/233529.994:ERROR:network_service_instance_impl.cc(600)] Network service crashed, restarting service.
+[3276:1022/233530.051:ERROR:gpu_process_host.cc(1002)] GPU process exited unexpectedly: exit_code=143

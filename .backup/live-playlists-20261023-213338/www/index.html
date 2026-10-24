@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#070410">
+<title>Game Zone IPTV</title>
+<link rel="stylesheet" href="theme.css">
+<script src="vendor/hls.min.js"></script>
+<script src="vendor/mpegts.js"></script>
+
+</head>
+<body>
+<script>document.documentElement.classList.add("intro-lock")</script>
+
+<!-- Fundo artístico fixo (fica atrás de tudo, bem discreto) -->
+<div id="bgart" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
+
+<!-- ===================== NAVEGAÇÃO LATERAL (celular grande, desktop e TV) ===================== -->
+<nav id="rail" aria-label="Navegação principal">
+  <div class="rail-logo">
+    <img src="assets/logo.png" alt="Game Zone IPTV">
+  </div>
+  <div class="rail-items">
+    <button class="rv on" data-s="home" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Início</span>
+    </button>
+    <button class="rv" data-s="movies">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M7 4.5v15M17 4.5v15M2.5 9.5H7M17 9.5h4.5M2.5 14.5H7M17 14.5h4.5"/></svg>
+      <span>Filmes</span>
+    </button>
+    <button class="rv" data-s="series">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 16.5V21"/></svg>
+      <span>Séries</span>
+    </button>
+    <button class="rv" data-s="live">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 16.2a6 6 0 0 0 0-8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 19.1a10 10 0 0 0 0-14.2"/></svg>
+      <span>TV</span>
+    </button>
+    <button class="rv" data-s="favs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 7a4.1 4.1 0 0 1 7.5 3.6C19.5 15.4 12 20 12 20z"/></svg>
+      <span>Favoritos</span>
+    </button>
+  </div>
+  <div class="rail-foot">
+    <button class="rv" id="rvPl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h11M4 12h11M4 18h7"/><path d="M17.5 13.5v5.2a1.5 1.5 0 1 1-3 0V15"/><path d="M17.5 13.5 20 14"/></svg>
+      <span>Playlists</span>
+    </button>
+    <button class="rv" id="rvCfg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      <span>Ajustes</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== NAVEGAÇÃO INFERIOR (celular) ===================== -->
+<nav id="bnav" aria-label="Navegação principal">
+  <button class="on" data-s="home" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+    <span>Início</span>
+  </button>
+  <button data-s="movies">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M7 4.5v15M17 4.5v15M2.5 9.5H7M17 9.5h4.5M2.5 14.5H7M17 14.5h4.5"/></svg>
+    <span>Filmes</span>
+  </button>
+  <button data-s="series">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 16.5V21"/></svg>
+    <span>Séries</span>
+  </button>
+  <button data-s="live">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 16.2a6 6 0 0 0 0-8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 19.1a10 10 0 0 0 0-14.2"/></svg>
+    <span>TV</span>
+  </button>
+  <button data-s="favs">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 7a4.1 4.1 0 0 1 7.5 3.6C19.5 15.4 12 20 12 20z"/></svg>
+    <span>Favoritos</span>
+  </button>
+</nav>
+
+<!-- ===================== INTRO ===================== -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-glow"></div>
+  <div class="intro-card">
+    <img class="intro-logo" src="assets/logo.png" alt="Game Zone IPTV">
+    <div class="intro-brand">
+      <span class="intro-title">GAME ZONE</span>
+      <span class="intro-sub">IPTV</span>
+    </div>
+    <div class="intro-tagline">O melhor do entretenimento</div>
+    <div class="intro-bar"><i></i></div>
+  </div>
+</div>
+<script>
+  // Failsafe independente do app.js: a animação nunca deve bloquear a tela inicial.
+  setTimeout(() => {
+    const intro = document.getElementById("intro");
+    if (intro) intro.classList.add("off");
+    document.documentElement.classList.remove("intro-lock");
+  }, 4000);
+</script>
+
+<!-- ===================== HOME ===================== -->
+<main id="home">
+  <div class="top">
+    <div class="logo">
+      <img src="assets/logo.png" alt="Game Zone IPTV">
+      <div class="txt"><span class="n1">GAME ZONE</span><span class="n2">IPTV</span></div>
+    </div>
+    <div class="searchwrap">
+      <input id="hq" placeholder="Buscar filmes, séries e canais" enterkeyhint="search" aria-label="Buscar no catálogo">
+      <kbd class="searchkbd" aria-hidden="true">Enter</kbd>
+    </div>
+    <div class="clock"><b id="clk"></b><span id="dt"></span></div>
+    <button class="icon-btn" id="bCfg" title="Configurações" aria-label="Configurações">
+      <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </div>
+
+  <div class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hc">
+      <div class="hi" id="hIco">🎬</div>
+      <h1 id="hT"></h1>
+      <p id="hD"></p>
+      <div class="btns">
+        <button class="btn-primary" id="hbtn">▶ Assistir agora</button>
+        <button class="btn-ghost" id="hbtn2">Ver catálogo</button>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile" tabindex="0" data-s="movies">
+      <div class="bgimg" style="background-image:url('assets/bg/filmes.svg')"></div>
+      <span class="go" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+      </span>
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M7 4.5v15M17 4.5v15M2.5 9.5H7M17 9.5h4.5M2.5 14.5H7M17 14.5h4.5"/></svg>
+      </span>
+      <b>Filmes</b>
+      <small id="nmovies">Carregando…</small>
+    </div>
+    <div class="tile" tabindex="0" data-s="series">
+      <div class="bgimg" style="background-image:url('assets/bg/series.svg')"></div>
+      <span class="go" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+      </span>
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3.5" width="19" height="13" rx="2.5"/><path d="M8 21h8M12 16.5V21"/></svg>
+      </span>
+      <b>Séries</b>
+      <small id="nseries">Carregando…</small>
+    </div>
+    <div class="tile" tabindex="0" data-s="live">
+      <div class="bgimg" style="background-image:url('assets/bg/futebol.svg')"></div>
+      <span class="go" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+      </span>
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 16.2a6 6 0 0 0 0-8.4M4.9 4.9a10 10 0 0 0 0 14.2M19.1 19.1a10 10 0 0 0 0-14.2"/></svg>
+      </span>
+      <b>TV ao Vivo</b>
+      <small id="nlive">Carregando…</small>
+    </div>
+  </div>
+
+  <div class="quickbar" id="quickbar" aria-label="Atalhos"></div>
+
+  <div id="err" role="status" aria-live="polite"></div>
+
+  <div class="sh" id="contHead"><h3>▶ Continuar assistindo</h3></div>
+  <div class="rail" id="cont"></div>
+
+  <div class="sh"><h3>🔥 Filmes em destaque</h3><button class="link" data-goto="movies">Ver todos ›</button></div>
+  <div class="rail" id="railMovies"></div>
+
+  <div class="sh"><h3>📺 Séries em destaque</h3><button class="link" data-goto="series">Ver todos ›</button></div>
+  <div class="rail" id="railSeries"></div>
+
+  <div class="sh" style="margin-top:34px;border-top:1px solid var(--line);padding-top:18px">
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="link" data-goto="favs">♥ Favoritos <span id="nfav"></span></button>
+      <button class="link" id="bCfg2">Configurações</button>
+      <button class="link" id="bPlaylist">Minhas playlists</button>
+    </div>
+  </div>
+</main>
+
+<!-- ===================== SEÇÕES ===================== -->
+<div id="sec" class="hide">
+  <div class="nav">
+    <button class="back" id="back" title="Voltar" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="pills">
+      <button class="pill" data-s="movies">Filmes</button>
+      <button class="pill" data-s="series">Séries</button>
+      <button class="pill" data-s="live">TV ao Vivo</button>
+      <button class="pill" data-s="favs">Favoritos</button>
+      <button class="pill" data-s="adult" id="pillAdult" style="display:none">Adulto</button>
+    </div>
+    <span style="flex:1"></span>
+    <button class="btn-ghost btn-multi" id="btnMulti" title="Assistir até 4 canais ao mesmo tempo">▣ Multi</button>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Buscar nesta categoria...">
+    <select id="sortBy" title="Ordenar por">
+      <option value="name-asc">A → Z</option>
+      <option value="name-desc">Z → A</option>
+      <option value="recent">Recentes</option>
+      <option value="views">Mais assistidos</option>
+      <option value="date-desc">Ano (novo)</option>
+      <option value="date-asc">Ano (antigo)</option>
+    </select>
+    <select id="filterQuality" title="Qualidade">
+      <option value="">Qualidade</option>
+      <option value="4K">4K</option>
+      <option value="FHD">Full HD</option>
+      <option value="HD">HD</option>
+      <option value="SD">SD</option>
+    </select>
+  </div>
+
+  <div class="catbar" id="catbar"></div>
+  <div id="listInfo" class="list-info"></div>
+
+  <div class="cols" id="cols">
+    <aside id="side"></aside>
+    <section id="list"></section>
+    <div id="pvwrap">
+      <div id="pvbox" tabindex="0">
+        <video id="v" playsinline webkit-playsinline></video>
+        <div id="ph">Selecione um filme, série ou canal<br>para começar a assistir.</div>
+        <div id="pvtop">
+          <button id="pFechar" class="pvtop-btn pvtop-close" title="Fechar o player (Esc)">✕ <span>Fechar</span></button>
+          <button id="fsBtn" class="pvtop-btn pvtop-full" title="Tela cheia (F)">⛶ <span>Tela cheia</span></button>
+          <button id="cinemaBtn" class="pvtop-btn" title="Modo cinema">🎬</button>
+          <button id="pipBtn" class="pvtop-btn" title="Picture-in-Picture">⧉</button>
+          <button id="xf" class="pvtop-btn" title="Sair da tela cheia">✕</button>
+        </div>
+        <div id="controls">
+          <div class="ctrl-progress">
+            <div class="ctrl-progress-bar" id="progressBar">
+              <div class="ctrl-progress-buf" id="progressBuf"></div>
+              <div class="ctrl-progress-fill" id="progressFill"></div>
+              <div class="ctrl-progress-thumb" id="progressThumb"></div>
+              <div class="ctrl-tip" id="ctrlTip"><canvas id="tipCanvas" width="160" height="90"></canvas><span id="tipTime">0:00</span></div>
+            </div>
+            <div class="ctrl-time">
+              <span id="ctrlLive" class="ctrl-live">AO VIVO</span>
+              <span id="currentTime">0:00</span><span class="ctrl-sep">/</span><span id="duration">0:00</span>
+            </div>
+          </div>
+          <div class="ctrl-buttons">
+            <button id="playPauseBtn" class="ctrl-btn" title="Play/Pause">▶</button>
+            <button id="back10" class="ctrl-btn" title="Voltar 10s">⏪</button>
+            <button id="fwd10" class="ctrl-btn" title="Avançar 10s">⏩</button>
+            <button id="muteBtn" class="ctrl-btn" title="Mudo">🔊</button>
+            <input type="range" id="volumeSlider" min="0" max="100" value="100" class="ctrl-volume" aria-label="Volume">
+            <div class="ctrl-spacer"></div>
+            <select id="speedSelect" class="ctrl-select" title="Velocidade">
+              <option value="0.5">0.5x</option>
+              <option value="0.75">0.75x</option>
+              <option value="1" selected>1x</option>
+              <option value="1.25">1.25x</option>
+              <option value="1.5">1.5x</option>
+              <option value="2">2x</option>
+            </select>
+            <select id="qualitySelect" class="ctrl-select" title="Qualidade" disabled>
+              <option value="auto">Auto</option>
+            </select>
+            <button id="rotateBtn" class="ctrl-btn" title="Girar tela">⟳</button>
+            <button id="fullscreenBtn" class="ctrl-btn" title="Tela cheia (F)">⛶</button>
+            <button id="fullLabel" class="ctrl-full" title="Tela cheia (F)">⛶ <span>Tela cheia</span></button>
+          </div>
+        </div>
+      </div>
+      <div id="pvt"></div><div id="pvh"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DETALHE (Netflix) ===================== -->
+<div id="detail"></div>
+
+<!-- ===================== CONFIGURAÇÕES ===================== -->
+<div id="cfg" class="hide">
+  <div class="panel">
+    <div class="head">
+      <h3>⚙️ Configurações</h3>
+      <button id="cCfg" title="Fechar">✕</button>
+    </div>
+    <div class="body">
+      <div class="tabs">
+        <button class="cfg-tab on" data-tab="player">▶️ Player</button>
+        <button class="cfg-tab" data-tab="interface">🎨 Interface</button>
+        <button class="cfg-tab" data-tab="network">🌐 Rede</button>
+        <button class="cfg-tab" data-tab="epg">📅 EPG</button>
+        <button class="cfg-tab" data-tab="parental">🔒 Controle parental</button>
+        <button class="cfg-tab" data-tab="advanced">⚙️ Avançado</button>
+      </div>
+      <div class="content">
+        <!-- PLAYER -->
+        <div class="cfg-content on" id="tab-player">
+          <label>Memória do buffer (segundos)</label>
+          <div class="rangewrap"><input type="range" id="u_bufferSize" min="5" max="120" step="5" value="30"><output id="bufferValue">30s</output></div>
+          <label>Volume inicial</label>
+          <div class="rangewrap"><input type="range" id="u_defaultVolume" min="0" max="100" value="100"><output id="volumeValue">100%</output></div>
+          <label>Tempo até esconder os controles (segundos)</label>
+          <input type="number" id="u_controlsTimeout" min="1" max="30" value="5">
+          <label>Idioma preferido do áudio</label>
+          <select id="u_audioLang"><option value="">Automático</option><option value="pt">Português</option><option value="en">Inglês</option><option value="es">Espanhol</option></select>
+          <label>Idioma preferido da legenda</label>
+          <select id="u_subtitleLang"><option value="">Desativada</option><option value="pt">Português</option><option value="en">Inglês</option><option value="es">Espanhol</option></select>
+          <label class="switch"><input type="checkbox" id="u_lowLatency"> Baixa latência (canais ao vivo)</label>
+          <label class="switch"><input type="checkbox" id="u_autoReconnect"> Reconectar automaticamente</label>
+          <label>Intervalo de verificação da conexão (segundos)</label>
+          <input type="number" id="u_reconnectInterval" min="3" max="60" value="12">
+          <label class="switch"><input type="checkbox" id="u_rememberPosition"> Lembrar onde parei nos filmes</label>
+          <label class="switch"><input type="checkbox" id="u_pip"> Picture-in-Picture</label>
+        </div>
+        <!-- INTERFACE -->
+        <div class="cfg-content" id="tab-interface">
+          <label class="switch"><input type="checkbox" id="u_showPreview"> Prévia em miniatura na barra de progresso</label>
+          <label class="switch"><input type="checkbox" id="u_showChannelNum"> Mostrar número do canal</label>
+          <label class="switch"><input type="checkbox" id="u_showEpg" checked> Mostrar "Agora / Próximo" nos canais</label>
+          <label class="switch"><input type="checkbox" id="u_showAdult"> Mostrar conteúdo adulto (aba separada com PIN)</label>
+          <label class="switch"><input type="checkbox" id="u_agruparVersoes"> Agrupar versões do mesmo filme (Dublado / Legendado / 4K)</label>
+          <small style="color:var(--mut);font-size:11.5px;display:block;margin:-6px 0 4px">Desligado (padrão): cada versão aparece como um card próprio, igual ao arquivo da lista.</small>
+          <label class="switch"><input type="checkbox" id="u_modoLeve"> Modo leve (para celular, TV box e internet lenta)</label>
+          <small style="color:var(--mut);font-size:11.5px;display:block;margin:-6px 0 4px">Reduz animações e mantém os buffers menores. Ative se o aparelho travar.</small>
+          <label class="switch"><input type="checkbox" id="u_autoRefresh"> Atualizar playlists automaticamente (24h)</label>
+        </div>
+        <!-- REDE -->
+        <div class="cfg-content" id="tab-network">
+          <label>Timeout das conexões (segundos)</label>
+          <input type="number" id="u_timeout" min="5" max="120" value="15">
+          <label>User-Agent (opcional)</label>
+          <input id="u_userAgent" placeholder="Ex.: VLC/3.0.18 LibVLC/3.0.18">
+          <label>Referer (opcional)</label>
+          <input id="u_referer" placeholder="https://...">
+          <label>Headers extras (um por linha, formato Nome: valor)</label>
+          <textarea id="u_headers" placeholder="X-Forwarded-For: 1.2.3.4"></textarea>
+          <label class="switch"><input type="checkbox" id="u_useProxy"> Usar proxy</label>
+          <label>URL do proxy</label>
+          <input id="u_proxyUrl" placeholder="http://127.0.0.1:8080/">
+        </div>
+        <!-- EPG -->
+        <div class="cfg-content" id="tab-epg">
+          <label>URLs do EPG (XMLTV) — uma por linha</label>
+          <textarea id="u_epgUrls" placeholder="https://exemplo.com/epg.xml"></textarea>
+          <label class="switch"><input type="checkbox" id="u_epgAutoUpdate" checked> Atualizar automaticamente</label>
+          <label>Intervalo de atualização (horas)</label>
+          <input type="number" id="u_epgUpdateInterval" min="1" max="48" value="12">
+          <label>Dias de programação a carregar</label>
+          <input type="number" id="u_epgDays" min="1" max="7" value="3">
+          <label class="switch"><input type="checkbox" id="u_epgShowPast"> Mostrar programas que já passaram</label>
+          <label>Chave da API do TMDB (para sinopses)</label>
+          <input id="u_tmdbKey" placeholder="Crie grátis em themoviedb.org">
+          <button id="epgClear" style="align-self:flex-start;margin-top:8px">🗑️ Limpar EPG e sinopses em cache</button>
+        </div>
+        <!-- PARENTAL -->
+        <div class="cfg-content" id="tab-parental">
+          <label class="switch"><input type="checkbox" id="u_parentalControl"> Ativar controle parental</label>
+          <label>PIN de 4 dígitos</label>
+          <input id="u_parentalPin" inputmode="numeric" maxlength="4" placeholder="0000" type="password">
+          <label class="switch"><input type="checkbox" id="u_hideAdult" checked> Ocultar conteúdo adulto completamente</label>
+        </div>
+        <!-- AVANÇADO -->
+        <div class="cfg-content" id="tab-advanced">
+          <label class="switch"><input type="checkbox" id="u_hwAccel" checked> Aceleração de hardware quando disponível</label>
+          <label class="switch"><input type="checkbox" id="u_ia"> Incluir catálogo gratuito do Internet Archive</label>
+          <label class="switch"><input type="checkbox" id="u_catchup"> Suporte a catch-up (replay de programas)</label>
+          <label>Quantos dias de catch-up</label>
+          <input type="number" id="u_catchupDays" min="1" max="72" value="24">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <button id="exportCfg">⬇️ Exportar configurações</button>
+            <button id="importCfg">⬆️ Importar</button>
+            <input type="file" id="importFile" accept=".json" class="hide">
+            <button id="resetCfg" style="color:var(--danger)">🗑️ Apagar tudo</button>
+          </div>
+          <div id="storageInfo" style="color:var(--mut);font-size:12.5px;margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <span class="grow"></span>
+      <button id="cCancel">Cancelar</button>
+      <button class="btn-primary" id="save" style="padding:11px 26px">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PLAYLISTS ===================== -->
+<div id="pl" class="hide modal">
+  <div class="panel" style="width:min(720px,100%)">
+    <div class="head">
+      <h3>🗒️ Minhas playlists</h3>
+      <button id="plClose" title="Fechar">✕</button>
+    </div>
+    <div class="body" style="gap:14px">
+      <div>
+        <label style="color:var(--mut);font-size:12.5px;font-weight:600">Tipo da lista</label>
+        <select id="plKind" style="margin-top:6px">
+          <option value="auto">Detectar automaticamente</option>
+          <option value="live">TV ao vivo</option>
+          <option value="movies">Filmes</option>
+          <option value="series">Séries</option>
+        </select>
+      </div>
+      <div>
+        <label style="color:var(--mut);font-size:12.5px;font-weight:600">Links M3U (um por linha)</label>
+        <textarea id="plUrls" placeholder="http://servidor:8080/get.php?username=...&password=...&type=m3u_plus" style="margin-top:6px;min-height:90px"></textarea>
+        <button id="plAddUrls" style="margin-top:8px">＋ Adicionar link</button>
+      </div>
+      <div>
+        <label style="color:var(--mut);font-size:12.5px;font-weight:600">Arquivos do computador (.m3u / .m3u8)</label>
+        <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap">
+          <button id="plPick">📁 Escolher arquivo</button>
+          <input type="file" id="plInput" accept=".m3u,.m3u8,text/plain" class="hide" multiple>
+        </div>
+      </div>
+      <div>
+        <label style="color:var(--mut);font-size:12.5px;font-weight:600">Incluídas no app</label>
+        <div id="plBuiltin" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
+        <small style="color:var(--mut);font-size:11.5px;display:block;margin-top:6px">Já vêm carregadas ao abrir o app. Remova ou restaure quando quiser.</small>
+      </div>
+      <div>
+        <label style="color:var(--mut);font-size:12.5px;font-weight:600">Suas listas</label>
+        <div id="plList" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
+      </div>
+      <div id="plStatus" style="color:var(--mut);font-size:12.5px"></div>
+      <div id="plResumo" style="color:#d7caf3;font-size:12.5px;line-height:1.7;border-top:1px solid var(--line);padding-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BUSCA AVANÇADA ===================== -->
+<div id="advSearchModal" class="hide modal">
+  <div class="panel">
+    <div class="head"><h3>🔍 Busca avançada</h3><button id="advSearchClose">✕</button></div>
+    <div class="body">
+      <label>Título contém</label>
+      <input id="adv_title" placeholder="Nome do filme ou série">
+      <label>Gênero / categoria</label>
+      <input id="adv_genre" placeholder="Ação, Comédia, Terror...">
+      <label>Ano de lançamento</label>
+      <div style="display:flex;gap:8px">
+        <input type="number" id="adv_year_from" placeholder="De" min="1900" max="2035" style="flex:1">
+        <input type="number" id="adv_year_to" placeholder="Até" min="1900" max="2035" style="flex:1">
+      </div>
+      <label>Qualidade</label>
+      <select id="adv_quality">
+        <option value="">Todas</option>
+        <option value="4K">4K</option>
+        <option value="FHD">Full HD</option>
+        <option value="HD">HD</option>
+        <option value="SD">SD</option>
+      </select>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn-primary" id="advSearchBtn" style="flex:1">Buscar</button>
+        <button id="advSearchClear">Limpar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EPG ===================== -->
+<div id="epgModal" class="hide modal">
+  <div class="panel">
+    <div class="head"><h3 id="epgTitle">Guia de programação</h3><button id="epgClose">✕</button></div>
+    <div class="body" id="epgGrid"></div>
+  </div>
+</div>
+
+<!-- ===================== MULTI-TELA ===================== -->
+<div id="multi" class="hide"></div>
+<div id="multiBar" class="hide">
+  <button id="mAdd" class="btn-primary" style="padding:8px 18px">＋ Adicionar canal</button>
+  <button id="mClose" class="btn-ghost" style="padding:8px 18px">✕ Sair da Multi-tela</button>
+</div>
+
+<!-- Modal seletor de canal para Multi-tela -->
+<div id="multiPickerModal" class="hide modal">
+  <div class="panel" style="width:min(680px,94vw);max-height:85vh">
+    <div class="head">
+      <h3 id="multiPickerTitle">Selecionar canal para o painel</h3>
+      <button id="multiPickerClose" title="Fechar">✕</button>
+    </div>
+    <div class="body" style="padding:16px 20px">
+      <input type="search" id="multiPickerSearch" placeholder="Buscar canal ao vivo por nome..." style="margin-bottom:12px;font-size:15px">
+      <div id="multiPickerList" class="picker-list" style="display:flex;flex-direction:column;gap:6px;max-height:55vh;overflow-y:auto;padding-right:4px"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="fflate.min.js"></script>
+<script src="bib.js"></script>
+<script src="carregar.js"></script>
+<script src="db.js"></script>
+<script src="builtin.js"></script>
+<script src="library.js"></script>
+<script src="detail.js"></script>
+<script src="player-nativo.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+CONSOLE %cElectron Security Warning (Disabled webSecurity) font-weight: bold; This renderer process has "webSecurity" disabled. This
+  exposes users of this app to severe security risks.
+
+For more information and help, consult
+https://electronjs.org/docs/tutorial/security.
+This warning will not show up
+once
+CONSOLE %cElectron Security Warning (allowRunningInsecureContent) font-weight: bold; This renderer process has "allowRunningInsecureContent"
+  enabled. This exposes users of this app to severe security risks.
+
+  
+For more information and help, consult
+https://electronjs.org/docs/tutorial/security.
+This warn
+CONSOLE %cElectron Security Warning (Insecure Content-Security-Policy) font-weight: bold; This renderer process has either no Content Security
+  Policy set or a policy with "unsafe-eval" enabled. This exposes users of
+  this app to unnecessary security risks.
+
+For more information and help, consult
+https://
+ready: true
+stats: {"movies":49584,"filmesTodas":49584,"series":11528,"episodes":521681,"live":905,"adult":1996}
+HEAP: 58MB
+filmes cats: 91 series cats: 43 live cats: 31
+primeira cat filmes: {"chave":"filmes legendados","rotulo":"Filmes · Legendados","total":16194}
+eps serie 0: (A)mar | 15 eps | ex: (A)mar S01E01
+busca acao: 7417

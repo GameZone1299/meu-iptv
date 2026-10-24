@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Game Zone IPTV</string>
+    <string name="title_activity_main">Game Zone IPTV</string>
+    <string name="package_name">com.meuiptv.app</string>
+    <string name="custom_url_scheme">com.meuiptv.app</string>
+</resources>

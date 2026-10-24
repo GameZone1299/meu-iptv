@@ -1,0 +1,46 @@
+INFO         | Android emulator version 37.2.12.0 (build_id 16428233) (CL:N/A)
+INFO         | Graphics backend: gfxstream
+INFO         | Found systemPath C:\Users\JuanRennely\AppData\Local\Android\Sdk\system-images\android-37.0\google_apis_playstore\x86_64\
+INFO         | Guest usage of host flag 'VulkanVirtualQueue' will be ignored.
+INFO         | Feature 'WindowsHypervisorPlatform' (14) is overridden to 'enabled'
+INFO         | Increasing RAM size to 4096MB
+INFO         | IPv4 server found: 1.1.1.1
+INFO         | Ignore IPv6 address: 50dd:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 50dd:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 50dd:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 88e3:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58ee:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58ee:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58ee:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 50f4:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 50f4:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 50f4:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58fa:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58fa:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 58fa:e5a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 806:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 806:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 806:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 200c:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 200c:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Ignore IPv6 address: 200c:e6a3:fe01:0:60d4:e5a3:fe01:0
+INFO         | Guest GLES Driver: Auto (ext controls)
+INFO         | emuglConfig_get_vulkan_hardware_gpu_support_info: Found physical GPU 'NVIDIA GeForce RTX 5060', type: VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU, apiVersion: 1.4.351, driverVersion: 617.42
+
+INFO         | emuglConfig_init: vulkan_mode_selected:host gles_mode_selected:host
+INFO         | Checking system compatibility:
+INFO         |   Checking: hasCompatibleHypervisor
+INFO         |      Ok: Hypervisor compatibility to run avd: `Medium_Phone_API_37.0` are met
+INFO         |   Checking: hasSufficientSystem
+INFO         |      Warning: Suggested minimum system RAM to run avd 'Medium_Phone_API_37.0' is 16384 MiB (available: 16277 MiB)
+INFO         |   Checking: hasSufficientHwGpu
+INFO         |      Ok: Hardware GPU requirements to run avd: `Medium_Phone_API_37.0` are passed
+INFO         |   Checking: hasSufficientDiskSpace
+INFO         |      Ok: Disk space requirements to run avd: `Medium_Phone_API_37.0` are met
+USER_WARNING | Suggested minimum system RAM to run avd 'Medium_Phone_API_37.0' is 16384 MiB (available: 16277 MiB).
+ERROR        | x86_64 emulation currently requires hardware acceleration!
+CPU acceleration status: Android Emulator hypervisor driver is not installed on this machine
+More info on configuring VM acceleration on Windows:
+https://developer.android.com/studio/run/emulator-acceleration#vm-windows
+General information on acceleration: https://developer.android.com/studio/run/emulator-acceleration.
+

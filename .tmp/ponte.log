@@ -1,0 +1,13 @@
+
+PN.ok: true
+aberto: ["abrir"]
+modo-nativo: true
+play/pause: ["play","rect","rect"]
+back10 (pos ~42s): [["buscar",32000]]
+volume: [["volume",0.4]]
+velocidade: [["velocidade",1.5]]
+barra: 0:00 / 0:00
+ao sair p/ home: ["fechar"] | PN.ativo: false | tocando: false
+com modal aberto -> visivel: [["rect",0,false]]
+modal fechado -> visivel: [["rect",0,true]]
+erro codec -> bloqueado: ["http://64.31.23.207:80/96795792/50165825/5298487.ts"] | reabriu nativo?: ["fechar"]

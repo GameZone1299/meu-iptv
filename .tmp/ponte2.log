@@ -1,0 +1,14 @@
+
+CONSOLE: %cElectron Security Warning (Disabled webSecurity) font-weight: bold; This renderer process has "webSecurity" disabled. This
+  exposes users of this app to severe security risks.
+
+For more information
+CONSOLE: %cElectron Security Warning (allowRunningInsecureContent) font-weight: bold; This renderer process has "allowRunningInsecureContent"
+  enabled. This exposes users of this app to severe security risks.
+CONSOLE: %cElectron Security Warning (Insecure Content-Security-Policy) font-weight: bold; This renderer process has either no Content Security
+  Policy set or a policy with "unsafe-eval" enabled. This exposes
+filme -> tempo: 0:42 / 10:00 | largura barra: 7% | isLive class: false
+erro de rede -> bloqueados: 0 -> 0 | mensagem exibida: Não foi possível abrir este item.
+Motivo
+erro codec -> bloqueados: 1 | PN.ativo: false
+abre de novo no nativo? false

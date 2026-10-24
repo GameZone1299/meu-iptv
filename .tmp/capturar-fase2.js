@@ -1,0 +1,35 @@
+const { app, BrowserWindow } = require("electron");
+const fs = require("fs");
+const path = require("path");
+app.commandLine.appendSwitch("disable-gpu-compositing");
+app.setPath("userData", path.resolve(".tmp/perfil-fase2"));
+const W = +(process.argv[2] || 1440), H = +(process.argv[3] || 900), SUF = process.argv[4] || "";
+const OUT = ".tmp/telas-fase2";
+app.whenReady().then(async () => {
+  fs.mkdirSync(OUT, { recursive: true });
+  const win = new BrowserWindow({ width: W, height: H, show: false,
+    webPreferences: { offscreen: true, webSecurity: false, autoplayPolicy: "no-user-gesture-required" } });
+  win.webContents.setFrameRate(5);
+  const erros = [];
+  win.webContents.on("console-message", (_e, lvl, msg) => { if (lvl >= 2) erros.push(msg.slice(0, 250)); });
+  await win.loadFile(path.resolve("www/index.html"));
+  await new Promise(r => setTimeout(r, 2000));
+  const ev = j => win.webContents.executeJavaScript(j);
+  const texto = fs.readFileSync(".tmp/teste.m3u", "utf8");
+  await ev(`(async()=>{for(const b of await builtinTodas()) builtinDesligar(b.key,true);
+    await importarLista("teste.m3u", ${JSON.stringify(texto)}, ""); await carregarTudo();})()`);
+  await new Promise(r => setTimeout(r, 1500));
+  const shot = async n => { const i = await win.webContents.capturePage();
+    fs.writeFileSync(path.join(OUT, n + SUF + ".png"), i.toPNG()); console.log("ok", n); };
+  await shot("01-home");
+  await ev('goto("movies")'); await new Promise(r => setTimeout(r, 700)); await shot("02-filmes");
+  await ev('goto("live")'); await new Promise(r => setTimeout(r, 700)); await shot("03-live");
+  await ev('goto("favs")'); await new Promise(r => setTimeout(r, 700)); await shot("04-favs-vazio");
+  await ev('goto("home")'); await new Promise(r => setTimeout(r, 500));
+  console.log("NAV ativa:", await ev('document.querySelector("#rail .rv.on,#bnav button.on")?.dataset.s||"nenhuma"'));
+  console.log("rail visivel:", await ev('getComputedStyle(document.querySelector("#rail")).display'));
+  console.log("bnav visivel:", await ev('getComputedStyle(document.querySelector("#bnav")).display'));
+  console.log("chips:", await ev('document.querySelectorAll(".qchip").length'));
+  console.log("erros:", JSON.stringify(erros));
+  app.exit(0);
+});

@@ -1,0 +1,17 @@
+{
+  "appId": "com.gamezone.iptv",
+  "appName": "Game Zone IPTV",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
